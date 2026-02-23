@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVIA TPV | El Futuro de la Hostelería</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --surface: #111111;
+            --text: #EDEDED;
+            --text-muted: #888888;
+            --accent: #DFFF00; /* Neon Chartreuse */
+            --accent-glow: rgba(223, 255, 0, 0.15);
+            --secondary: #00FFFF; /* Cyan */
+            --border: #333333;
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: none; /* Custom cursor */
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline {
+            width: 40px;
+            height: 40px;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .display-text {
+            font-size: clamp(4rem, 15vw, 12rem);
+            color: var(--text);
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        .highlight {
+            color: var(--accent);
+        }
+
+        .text-cyan {
+            color: var(--secondary);
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 60ch;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 8rem 0;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        /* Why Now Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .stat-card h3 {
+            font-size: 5rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card h4 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4rem;
+            font-family: var(--font-body);
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .comparison-table th.solvia-col {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .check { color: var(--accent); font-weight: bold; }
+        .cross { color: #333; }
+
+        /* Roadmap */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+
+        .feature-number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card:hover .feature-number {
+            color: var(--accent);
+        }
+
+        .feature-title {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Final CTA */
+        .cta-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 3rem;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: var(--font-display);
+            font-size: 2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* Glitch Effect for Logo */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(35px, 9999px, 16px, 0); }
+            20% { clip: rect(88px, 9999px, 96px, 0); }
+            40% { clip: rect(10px, 9999px, 83px, 0); }
+            60% { clip: rect(55px, 9999px, 7px, 0); }
+            80% { clip: rect(22px, 9999px, 63px, 0); }
+            100% { clip: rect(94px, 9999px, 26px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(15px, 9999px, 66px, 0); }
+            20% { clip: rect(48px, 9999px, 26px, 0); }
+            40% { clip: rect(70px, 9999px, 13px, 0); }
+            60% { clip: rect(25px, 9999px, 97px, 0); }
+            80% { clip: rect(92px, 9999px, 33px, 0); }
+            100% { clip: rect(4px, 9999px, 86px, 0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="container hero-content">
+            <span class="hero-tagline fade-up">El Futuro del TPV es Conversacional</span>
+            <h1 class="display-text glitch fade-up" data-text="SOLVIA">SOLVIA</h1>
+            <h2 class="section-title fade-up" style="font-size: 3rem; color: var(--text-muted);">
+                "Apunta dos cañas y <br><span class="highlight">una paella en efectivo</span>"
+            </h2>
+            <p class="fade-up" style="margin-top: 2rem; font-size: 1.5rem;">
+                El primer TPV para hostelería que te escucha. Sin hardware. Sin fricción.
+            </p>
+        </div>
+    </section>
+
+    <!-- Why Now -->
+    <section id="market">
+        <div class="container">
+            <span class="hero-tagline fade-up">El Momento es Ahora</span>
+            <h2 class="section-title fade-up">La Ventana de <span class="text-cyan">Oportunidad</span></h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card fade-up">
+                    <h3>1.5M</h3>
+                    <h4>Bares en España</h4>
+                    <p>El mercado es inmenso y está fragmentado. La mayoría sigue usando libretas o software de Windows 95.</p>
+                </div>
+                <div class="stat-card fade-up" style="transition-delay: 0.1s;">
+                    <h3>90%</h3>
+                    <h4>Software Obsoleto</h4>
+                    <p>La competencia (Square, SumUp) te obliga a comprar su hardware. Nosotros vivimos en el navegador.</p>
+                </div>
+                <div class="stat-card fade-up" style="transition-delay: 0.2s;">
+                    <h3>IA</h3>
+                    <h4>Revolución LLM</h4>
+                    <p>Hace 2 años esto era imposible. Hoy, Claude y GPT-4 entienden el contexto de un camarero estresado perfectamente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competition -->
+    <section id="competition">
+        <div class="container">
+            <span class="hero-tagline fade-up">Dominio del Mercado</span>
+            <h2 class="section-title fade-up">Solvia vs <span class="highlight">El Resto</span></h2>
+
+            <table class="comparison-table fade-up">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Square / SumUp</th>
+                        <th>Tecfood / TPVs Viejos</th>
+                        <th class="solvia-col">SOLVIA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IA Conversacional (Voz/Texto)</td>
+                        <td><span class="cross">NO</span></td>
+                        <td><span class="cross">NO</span></td>
+                        <td><span class="check">SÍ (Nativo)</span></td>
+                    </tr>
+                    <tr>
+                        <td>Hardware Requerido</td>
+                        <td><span class="cross">SÍ (Datáfonos, Pantallas)</span></td>
+                        <td><span class="cross">SÍ (Torres PC, Cables)</span></td>
+                        <td><span class="check">NO (Cualquier Móvil)</span></td>
+                    </tr>
+                    <tr>
+                        <td>Setup Inmediato</td>
+                        <td><span class="cross">Días (Envío)</span></td>
+                        <td><span class="cross">Semanas (Instalación)</span></td>
+                        <td><span class="check">5 Minutos</span></td>
+                    </tr>
+                    <tr>
+                        <td>Predicción de Stock</td>
+                        <td><span class="cross">Básico</span></td>
+                        <td><span class="cross">Manual</span></td>
+                        <td><span class="check">IA Predictiva</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap">
+        <div class="container">
+            <span class="hero-tagline fade-up">El Plan Maestro</span>
+            <h2 class="section-title fade-up">Roadmap <span class="highlight">2025</span></h2>
+            
+            <div class="roadmap-grid">
+                <div class="feature-card fade-up">
+                    <div class="feature-number">01</div>
+                    <div class="feature-title">Onboarding Flash</div>
+                    <p>Wizard de 5 minutos. El dueño sube una foto de su carta y la IA configura todo el menú automáticamente.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="feature-number">02</div>
+                    <div class="feature-title">Ticket WhatsApp</div>
+                    <p>Sin impresoras térmicas que se atascan. "Envíale el ticket a este número". Ahorro de papel y hardware.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="feature-number">03</div>
+                    <div class="feature-title">Modo Comandas</div>
+                    <p>Gestión visual de mesas. Arrastrar y soltar pedidos. Sincronización en tiempo real entre camareros.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="feature-number">04</div>
+                    <div class="feature-title">IA Proactiva</div>
+                    <p>No solo registra. Avisa: "Oye, te quedan pocas cervezas" o "La mesa 4 lleva 20 min esperando".</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="feature-number">05</div>
+                    <div class="feature-title">Hacienda Ready</div>
+                    <p>Generación automática de PDFs trimestrales para el gestor. El dolor de cabeza #1 del hostelero, resuelto.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="feature-number">06</div>
+                    <div class="feature-title">PWA Nativa</div>
+                    <p>Instalable en iOS y Android. Funciona offline. Notificaciones push. Se siente como una app nativa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Message -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="section-title fade-up">Estás construyendo <br>el <span class="highlight">Sistema Operativo</span> <br>de la Hostelería</h2>
+            <p class="fade-up" style="margin: 2rem auto; font-size: 1.25rem;">
+                Tienes la tecnología (IA + Web). Tienes el nicho (Bares de España). Tienes la visión.<br>
+                El mercado está esperando algo que simplemente funcione.
+            </p>
+            <div class="fade-up">
+                <a href="#" class="cta-btn">Seguir Construyendo</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Add some lag to the outline for smooth feel
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Scroll Animation Logic
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add hover effect to links for cursor
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursorOutline.style.backgroundColor = 'rgba(223, 255, 0, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursorOutline.style.backgroundColor = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>
